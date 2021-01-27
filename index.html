@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="root" class="container my-5 p-5"> </div>
+
+    <script type="text/jsx">
+        var rootElem = document.querySelector("#root")
+
+        var Counter = (props) =>{
+            return(
+                <div className="card text-center mb-5">
+                    <h1> {props.count} </h1>
+                    <div className="d-flex justify-content-around mt-3">
+                        <button className="btn btn-info" onClick={props.increment}> + </button>
+                        <button className="btn btn-info" onClick={props.decrement}> - </button>
+                        <button className="btn btn-danger" onClick={props.deleteCounter}> X </button>
+                    </div>
+                </div>
+            )
+        }
+        
+        var CreateCounter = () =>{
+            var [counters, setCounters] = React.useState([])
+
+            var increment = (index) =>{
+                setCounters(
+                    counters.map((elem,idx) => (idx===index?elem+1:elem))
+                )
+            }
+
+            var decrement = (index) =>{
+                setCounters(
+                    counters.map((elem,idx) => (idx===index?elem-1:elem))
+                )
+            }
+
+            var deleteCounter = (index) =>{
+                setCounters(
+                    counters.filter((item,idx)=>idx!==index)
+                )
+            }
+
+            var addCounter = () =>{
+                setCounters(counters.concat([0]))
+            }
+
+            var removeCounter = () =>{  
+                setCounters(counters.slice(0,counters.length-1))
+            }
+
+            return(
+                <div className="col-lg-6 col-md-8 col-sm-10 col-10 offset-lg-3 offset-md-2 offset-sm-1 offset-1 text-center">
+                    <button className="btn btn-primary mr-3 mb-3" onClick={addCounter}> Add Counter </button>
+                    <button className="btn btn-primary mb-3" onClick={removeCounter}> Remove Counter </button>
+
+                    <div className="d-flex flex-wrap justify-content-around my-5">
+                        {counters.map((item,index)=>(
+                                <Counter
+                                key={index}
+                                count={item}
+                                increment = {()=> increment(index)}
+                                decrement = {()=> decrement(index)}
+                                deleteCounter = {()=> deleteCounter(index)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )
+        }
+
+        var App = () =>{
+            var [show, setShow] = React.useState("start")
+
+            var showCounter = () =>{
+                setShow(show="counter")
+            }
+
+            return( show==="start" ? (
+                        <div className="col-lg-6 col-md-8 col-sm-10 col-10 offset-lg-3 
+                        offset-md-2 offset-sm-1 offset-1 text-center start-body">
+                            <h4> Create, Increment, Decrement, and Remove Counter </h4>
+                            <button className="btn btn-primary mt-5" onClick={showCounter}> Start </button>
+                        </div> 
+                        ) : <CreateCounter />          
+            )
+        }
+
+        ReactDOM.render(<App />, rootElem)
+    </script>
+
+</body>
+</html>

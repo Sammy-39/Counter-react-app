@@ -1,0 +1,15 @@
+
+.card{
+    box-shadow: 0 5px 5px 5px gray;
+    padding: 10px;
+    height: auto;
+    width: 200px;
+}
+
+.start-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+}
